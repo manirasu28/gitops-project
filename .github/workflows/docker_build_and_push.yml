@@ -17,7 +17,7 @@ jobs:
       DOCKERHUB_USERNAME: maniarasu28
       IMAGE_NAME: gitops-project
       IMAGE_TAG: ${{ github.run_number }}
-      DEPLOYMENT_FILE: helm-chart/values.yaml
+      DEPLOYMENT_FILE: infrastructure/helm-chart/values.yaml
 
     steps:
     - name: Checkout code
