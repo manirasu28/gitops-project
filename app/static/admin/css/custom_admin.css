@@ -1,0 +1,911 @@
+/* TMS Administration - Custom Admin Styles */
+
+:root {
+    --primary-color: #0a326e;
+    --primary-hover: #051d42;
+    --secondary-color: #3c5fa7;
+    --accent-color: #e74c3c;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+}
+
+/* General Layout Improvements */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.content {
+    padding: 20px;
+}
+
+/* Navbar Styling */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.navbar .navbar-brand {
+    padding: 0.5rem 1rem;
+    transition: all var(--transition-speed);
+}
+
+.navbar .navbar-brand:hover {
+    transform: scale(1.02);
+}
+
+.navbar-brand img {
+    max-height: 40px;
+    margin-right: 10px;
+}
+
+.navbar-brand-text {
+    font-weight: 600;
+}
+
+/* Admin Navbar Styling - Custom */
+#jazzy-navbar {
+    background-color: #051d42 !important;
+    padding: 0.5rem 1rem !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+    height: 58px !important; /* Fixed height to prevent expansion */
+}
+
+#jazzy-navbar .navbar-nav .nav-link {
+    color: white !important;
+    padding: 0.7rem 1rem !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+}
+
+#jazzy-navbar .navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+#jazzy-navbar .navbar-nav .dropdown-menu {
+    border: none !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15) !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 0 !important;
+    margin-top: 0.5rem !important;
+}
+
+#jazzy-navbar .navbar-nav .dropdown-item {
+    padding: 0.6rem 1.5rem !important;
+    transition: all 0.2s ease !important;
+}
+
+#jazzy-navbar .navbar-nav .dropdown-item:hover {
+    background-color: rgba(5, 29, 66, 0.05) !important;
+    color: #051d42 !important;
+}
+
+/* Brand Link Styling - Custom */
+#jazzy-logo, .brand-link {
+    background-color: #0a326e !important;
+    color: white !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 15px !important;
+    transition: all 0.3s ease !important;
+}
+
+#jazzy-logo:hover, .brand-link:hover {
+    background-color: #0a326e !important;
+}
+
+#jazzy-logo img, .brand-link img {
+    max-height: 42px !important;
+    margin-right: 10px !important;
+    /* Remove image styling that affects clarity */
+    border-radius: 0 !important; /* Remove img-circle */
+    box-shadow: none !important; /* Remove elevation shadow */
+    background-color: transparent !important;
+    padding: 0 !important;
+}
+
+#jazzy-logo .brand-text, .brand-link .brand-text {
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+}
+
+/* Search Box Styling */
+#jazzy-navbar .form-inline {
+    margin-left: auto !important;
+    margin-right: 2rem !important;
+    flex: 0 0 auto !important;
+    max-width: 400px !important;
+    min-width: 250px !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    height: 40px !important;
+}
+
+#jazzy-navbar .input-group {
+    width: 100% !important;
+    height: 40px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    position: relative !important;
+    border-radius: 50px !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    transition: all 0.3s ease !important;
+}
+
+#jazzy-navbar .input-group-append {
+    display: flex !important;
+    height: 40px !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+}
+
+#jazzy-navbar .input-group:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+#jazzy-navbar .form-control-navbar {
+    background-color: transparent !important;
+    border: none !important;
+    color: white !important;
+    padding: 0.6rem 1.2rem !important;
+    padding-right: 50px !important; /* Make room for the button */
+    font-size: 0.9rem !important;
+    width: 100% !important;
+    height: 40px !important;
+}
+
+#jazzy-navbar .form-control-navbar::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-style: italic !important;
+}
+
+#jazzy-navbar .btn-navbar {
+    background-color: transparent !important;
+    border: none !important;
+    color: white !important;
+    padding: 0 1.2rem !important;
+    height: 40px !important;
+    width: 50px !important;
+    position: relative !important;
+    z-index: 5 !important;
+    transition: all 0.2s ease !important;
+}
+
+#jazzy-navbar .btn-navbar:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Fix navbar layout */
+#jazzy-navbar > .navbar-nav,
+#jazzy-navbar > ul.navbar-nav.ml-auto {
+    flex-direction: row !important;
+    align-items: center !important;
+    height: 100% !important;
+    flex-wrap: nowrap !important;
+}
+
+#jazzy-navbar > .navbar-nav.ml-auto {
+    margin-left: 0 !important;
+}
+
+/* User dropdown menu */
+#jazzy-usermenu {
+    right: 0 !important;
+    left: auto !important;
+    min-width: 250px !important;
+}
+
+#jazzy-navbar .dropdown-header {
+    background-color: #f8f9fa !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 0.85rem !important;
+    color: #051d42 !important;
+}
+
+#jazzy-navbar .dropdown-footer {
+    background-color: #f8f9fa !important;
+    text-align: center !important;
+    color: #051d42 !important;
+    font-weight: 600 !important;
+}
+
+/* Ensure navbar doesn't wrap */
+@media (max-width: 992px) {
+    #jazzy-navbar .form-inline {
+        max-width: 250px !important;
+        min-width: 180px !important;
+    }
+    
+    #jazzy-navbar .d-none.d-sm-inline-block {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #jazzy-navbar .form-inline {
+        max-width: 180px !important;
+        min-width: 150px !important;
+    }
+}
+
+/* Dashboard Cards */
+.card {
+    border-radius: 8px !important;
+    box-shadow: var(--card-shadow) !important;
+    transition: all var(--transition-speed) !important;
+    margin-bottom: 20px !important;
+    border: none !important;
+    overflow: hidden !important;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    border-bottom: none !important;
+    padding: 15px 20px !important;
+}
+
+.card-tools .btn {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: none !important;
+}
+
+.card-body {
+    padding: 20px !important;
+}
+
+/* Navigation Sidebar */
+.sidebar {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05) !important;
+    background: #ffffff !important;
+}
+
+.sidebar a.nav-link {
+    color: #444 !important;
+    transition: all var(--transition-speed);
+    border-radius: 6px;
+    margin: 2px 10px;
+}
+
+.sidebar a.nav-link:hover {
+    background-color: rgba(10, 50, 110, 0.1) !important;
+    color: var(--primary-color) !important;
+    padding-left: 25px !important;
+}
+
+.sidebar a.nav-link.active {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    box-shadow: 0 2px 5px rgba(10, 50, 110, 0.2);
+}
+
+.sidebar .nav-treeview a.nav-link {
+    padding-left: 25px !important;
+    font-size: 0.9rem;
+}
+
+.sidebar .nav-treeview a.nav-link:hover {
+    padding-left: 30px !important;
+}
+
+/* User Panel Styling */
+.user-panel {
+    padding: 15px !important;
+    background-color: #0a326e !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-bottom: 15px !important;
+}
+
+.user-panel .image {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.user-panel .image i {
+    color: #fff !important;
+    font-size: 2.1rem !important;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+}
+
+.user-panel .info {
+    padding: 5px 5px 5px 10px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.user-panel .info a.d-block {
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    padding: 6px 12px !important;
+    border-radius: 20px !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transition: all 0.3s ease !important;
+    display: inline-block !important;
+    text-align: center !important;
+    width: 100% !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+    position: relative !important;
+}
+
+.user-panel .info a.d-block:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.user-panel .info a.d-block::before {
+    content: '👤 ' !important;
+    margin-right: 5px !important;
+}
+
+/* Buttons Styling */
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 2px 5px rgba(10, 50, 110, 0.2) !important;
+    transition: all var(--transition-speed) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(10, 50, 110, 0.3) !important;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+    transition: all var(--transition-speed) !important;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(60, 95, 167, 0.3) !important;
+}
+
+.btn-danger {
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+    transition: all var(--transition-speed) !important;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3) !important;
+}
+
+/* Tables */
+.table thead th {
+    background-color: #f1f5f9 !important;
+    border-bottom: 2px solid var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.table tbody tr {
+    transition: all var(--transition-speed);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(10, 50, 110, 0.05) !important;
+}
+
+.table td, .table th {
+    padding: 12px 15px !important;
+    vertical-align: middle !important;
+}
+
+/* Form Controls */
+.form-control {
+    border-radius: 6px !important;
+    padding: 10px 15px !important;
+    border: 1px solid #dee2e6 !important;
+    transition: all var(--transition-speed) !important;
+    width: 100% !important; /* Make all form controls have consistent width */
+    max-width: 500px !important; /* Maximum width for form fields */
+}
+
+.form-control:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(10, 50, 110, 0.25) !important;
+}
+
+/* Admin Form Specific Styling */
+.form-row {
+    padding: 10px 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.form-row > div {
+    width: 100% !important;
+    max-width: 500px !important; /* Maximum width for form containers */
+}
+
+/* Admin form field labels */
+.form-row label {
+    font-weight: 600 !important;
+    color: #444 !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+    font-size: 0.9rem !important;
+}
+
+/* Style all input elements consistently */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="url"],
+input[type="tel"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+textarea,
+select {
+    width: 100% !important;
+    max-width: 500px !important;
+    padding: 10px 15px !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 6px !important;
+    transition: all var(--transition-speed) !important;
+    margin-bottom: 10px !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    background-color: #fff !important;
+}
+
+/* Focus states for all inputs */
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 0 !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(10, 50, 110, 0.15) !important;
+}
+
+/* Hover effect */
+input:hover,
+textarea:hover,
+select:hover {
+    border-color: #adb5bd !important;
+}
+
+/* Placeholder styling */
+input::placeholder,
+textarea::placeholder {
+    color: #adb5bd !important;
+    opacity: 0.7 !important;
+}
+
+/* Disabled state */
+input:disabled,
+textarea:disabled,
+select:disabled {
+    background-color: #f8f9fa !important;
+    cursor: not-allowed !important;
+    opacity: 0.6 !important;
+}
+
+/* Style checkboxes and radio buttons */
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto !important;
+    margin-right: 8px !important;
+    vertical-align: middle !important;
+}
+
+/* Form help text */
+.help {
+    color: #6c757d !important;
+    font-size: 0.85rem !important;
+    margin-top: 5px !important;
+    display: block !important;
+    font-style: italic !important;
+}
+
+/* Error messages */
+.errorlist {
+    color: var(--accent-color) !important;
+    list-style-type: none !important;
+    padding-left: 0 !important;
+    margin-top: 5px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+}
+
+/* Select2 compatibility (if used) */
+.select2-container {
+    width: 100% !important;
+    max-width: 500px !important;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 45px !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 6px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 45px !important;
+    padding-left: 15px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 43px !important;
+}
+
+/* Django admin specific elements */
+.aligned label {
+    width: 160px !important;
+    color: #444 !important;
+    font-weight: 600 !important;
+}
+
+.aligned label + p {
+    margin-left: 160px !important;
+}
+
+/* Aligned form fields in admin */
+form .aligned p.help {
+    margin-left: 160px !important;
+    padding-left: 10px !important;
+}
+
+form .aligned div.help {
+    margin-left: 160px !important;
+}
+
+form .aligned ul {
+    margin-left: 160px !important;
+}
+
+/* Make fields in change form have consistent width */
+.change-form .form-row > div {
+    width: 100% !important;
+    max-width: 500px !important;
+}
+
+.change-form input[type="text"],
+.change-form input[type="password"],
+.change-form input[type="email"],
+.change-form input[type="number"],
+.change-form input[type="url"],
+.change-form textarea,
+.change-form select {
+    width: 100% !important;
+    max-width: 500px !important;
+}
+
+/* Improve datetime widgets */
+.datetime {
+    display: flex !important;
+    max-width: 500px !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+
+.datetime input {
+    flex: 1 !important;
+    min-width: 120px !important;
+}
+
+/* Field sets */
+fieldset {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    padding: 20px !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 8px !important;
+    background-color: #f8f9fa !important;
+}
+
+fieldset legend {
+    font-weight: 600 !important;
+    padding: 0 10px !important;
+    width: auto !important;
+    color: var(--primary-color) !important;
+}
+
+/* Inlines */
+.inline-group {
+    border: 1px solid #dee2e6 !important;
+    border-radius: 8px !important;
+    margin-bottom: 20px !important;
+    padding: 10px !important;
+    background-color: #fff !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+.inline-group h2 {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    padding: 12px 15px !important;
+    margin-top: 0 !important;
+    margin-bottom: 15px !important;
+    border-radius: 6px !important;
+    font-size: 1.1rem !important;
+}
+
+/* Submit row */
+.submit-row {
+    padding: 15px !important;
+    background-color: #f8f9fa !important;
+    border-top: 1px solid #eee !important;
+    border-radius: 0 0 8px 8px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+
+.submit-row a.closelink {
+    color: #6c757d !important;
+    background-color: #e2e6ea !important;
+    border-color: #dae0e5 !important;
+    padding: 8px 16px !important;
+    border-radius: 4px !important;
+    text-decoration: none !important;
+    transition: all var(--transition-speed) !important;
+}
+
+.submit-row a.closelink:hover {
+    background-color: #d5dae0 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+}
+
+.submit-row input[type="submit"] {
+    padding: 10px 20px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    transition: all var(--transition-speed) !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+.submit-row input[type="submit"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.submit-row input[type="submit"].default {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.submit-row input[type="submit"].default:hover {
+    background-color: var(--primary-hover) !important;
+}
+
+/* Action Buttons */
+.actions-btn, .actions .btn {
+    margin-right: 5px;
+    border-radius: 4px;
+    transition: all var(--transition-speed);
+}
+
+.actions-btn:hover, .actions .btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Dashboard Widgets */
+.small-box {
+    border-radius: 8px !important;
+    box-shadow: var(--card-shadow) !important;
+    transition: all var(--transition-speed) !important;
+    overflow: hidden !important;
+}
+
+.small-box:hover {
+    transform: translateY(-5px);
+}
+
+.small-box-footer {
+    background: rgba(0, 0, 0, 0.1) !important;
+    padding: 5px !important;
+    transition: all var(--transition-speed) !important;
+}
+
+.small-box:hover .small-box-footer {
+    background: rgba(0, 0, 0, 0.2) !important;
+    padding: 7px 5px !important;
+}
+
+/* Stats Widgets */
+.info-box {
+    border-radius: 8px !important;
+    box-shadow: var(--card-shadow) !important;
+    transition: all var(--transition-speed) !important;
+}
+
+.info-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.info-box-icon {
+    border-radius: 8px 0 0 8px !important;
+}
+
+.info-box-content {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+/* Graph Cards */
+.card-outline {
+    border-top: 3px solid var(--primary-color) !important;
+}
+
+/* Badges */
+.badge {
+    padding: 5px 10px !important;
+    font-weight: 500 !important;
+    border-radius: 4px !important;
+}
+
+.badge-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.badge-success {
+    background-color: var(--success-color) !important;
+}
+
+.badge-warning {
+    background-color: var(--warning-color) !important;
+}
+
+.badge-danger {
+    background-color: var(--accent-color) !important;
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+    background-color: transparent !important;
+    padding: 0.75rem 0 !important;
+}
+
+.breadcrumb-item a {
+    color: var(--primary-color) !important;
+}
+
+/* Footer */
+.main-footer {
+    padding: 15px !important;
+    font-weight: 600 !important;
+    border-top: 1px solid #eee !important;
+}
+
+/* Login Form */
+.login-page {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.login-card-body {
+    border-radius: 10px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.login-box-msg {
+    font-weight: 600 !important;
+    color: var(--primary-color) !important;
+}
+
+/* Custom Animations */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-in-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Hide Jazzmin version */
+#jazzy-footer {
+    display: none !important;
+}
+
+.sidebar-footer-content {
+    display: none !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Admin Dashboard Specific */
+.timesince {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+.recent-actions .module h2 {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.module h2 {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.module caption {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+div.breadcrumbs {
+    background-color: var(--primary-color) !important;
+}
+
+/* Alerts and messages */
+.alert {
+    border-radius: 8px !important;
+    padding: 15px 20px !important;
+    margin-bottom: 20px !important;
+    border: none !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+}
+
+.alert-success {
+    background-color: rgba(46, 204, 113, 0.1) !important;
+    color: #2ecc71 !important;
+}
+
+.alert-danger {
+    background-color: rgba(231, 76, 60, 0.1) !important;
+    color: #e74c3c !important;
+}
+
+.alert-warning {
+    background-color: rgba(243, 156, 18, 0.1) !important;
+    color: #f39c12 !important;
+}

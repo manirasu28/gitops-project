@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load ticket_tags %}
+
+{% block title %}My Tickets - Ticket Management System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>My Tickets</h1>
+                <a href="{% url 'create_ticket' %}" class="btn btn-primary">
+                    <i class="fas fa-plus-circle me-2"></i>Create New Ticket
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Filter Tickets</h4>
+                </div>
+                <div class="card-body">
+                    <form method="get">
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select name="status" id="status" class="form-select">
+                                <option value="">All Statuses</option>
+                                <option value="pending" {% if status == 'pending' %}selected{% endif %}>Pending</option>
+                                <option value="in_progress" {% if status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                                <option value="resolved" {% if status == 'resolved' %}selected{% endif %}>Resolved</option>
+                                <option value="closed" {% if status == 'closed' %}selected{% endif %}>Closed</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="priority" class="form-label">Priority</label>
+                            <select name="priority" id="priority" class="form-select">
+                                <option value="">All Priorities</option>
+                                <option value="low" {% if priority == 'low' %}selected{% endif %}>Low</option>
+                                <option value="medium" {% if priority == 'medium' %}selected{% endif %}>Medium</option>
+                                <option value="high" {% if priority == 'high' %}selected{% endif %}>High</option>
+                                <option value="urgent" {% if priority == 'urgent' %}selected{% endif %}>Urgent</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select name="category" id="category" class="form-select">
+                                <option value="">All Categories</option>
+                                {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if category == cat.id|stringformat:'s' %}selected{% endif %}>{{ cat.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                            <a href="{% url 'ticket_list' %}" class="btn btn-outline-secondary">Clear Filters</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{{ tickets.count }} Ticket{{ tickets.count|pluralize }}</h4>
+                        <form class="d-flex" method="get">
+                            <input type="hidden" name="status" value="{{ status }}">
+                            <input type="hidden" name="priority" value="{{ priority }}">
+                            <input type="hidden" name="category" value="{{ category }}">
+                            <input class="form-control me-2" type="search" placeholder="Search tickets..." name="q" value="{{ search_query }}">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    {% if tickets %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Priority</th>
+                                    <th scope="col">Created</th>
+                                    <th scope="col">Last Updated</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ticket in tickets %}
+                                <tr>
+                                    <td>{{ ticket.id }}</td>
+                                    <td>
+                                        <a href="{% url 'ticket_detail' ticket.id %}" class="text-decoration-none fw-bold">{{ ticket.title }}</a>
+                                    </td>
+                                    <td>{{ ticket.category.name }}</td>
+                                    <td>
+                                        <span class="badge {% get_ticket_status_class ticket.status %}">{{ ticket.get_status_display }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge {% get_ticket_priority_class ticket.priority %}">{{ ticket.get_priority_display }}</span>
+                                    </td>
+                                    <td><small>{{ ticket.created_at|date:"M d, Y" }}</small></td>
+                                    <td><small>{{ ticket.updated_at|date:"M d, Y" }}</small></td>
+                                    <td>
+                                        <a href="{% url 'ticket_detail' ticket.id %}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="p-4 text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-ticket-alt fa-3x text-muted"></i>
+                        </div>
+                        <h4>No tickets found</h4>
+                        <p class="text-muted">{% if search_query %}No tickets match your search criteria.{% else %}You haven't created any tickets yet.{% endif %}</p>
+                        <a href="{% url 'create_ticket' %}" class="btn btn-primary">
+                            <i class="fas fa-plus-circle me-2"></i>Create Your First Ticket
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% if tickets.paginator %}
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if tickets.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if status %}&status={{ status }}{% endif %}{% if priority %}&priority={{ priority }}{% endif %}{% if category %}&category={{ category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="First">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ tickets.previous_page_number }}{% if status %}&status={{ status }}{% endif %}{% if priority %}&priority={{ priority }}{% endif %}{% if category %}&category={{ category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% for num in tickets.paginator.page_range %}
+                    {% if tickets.number == num %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                    {% elif num > tickets.number|add:'-3' and num < tickets.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}{% if status %}&status={{ status }}{% endif %}{% if priority %}&priority={{ priority }}{% endif %}{% if category %}&category={{ category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">{{ num }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    
+                    {% if tickets.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ tickets.next_page_number }}{% if status %}&status={{ status }}{% endif %}{% if priority %}&priority={{ priority }}{% endif %}{% if category %}&category={{ category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ tickets.paginator.num_pages }}{% if status %}&status={{ status }}{% endif %}{% if priority %}&priority={{ priority }}{% endif %}{% if category %}&category={{ category }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="Last">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

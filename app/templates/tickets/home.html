@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Ticket Management System{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Gradient Background -->
+<div class="container-fluid py-5" style="background: linear-gradient(135deg, #0a326e 0%, #1a4d95 100%)">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-6 animate__animated animate__fadeInLeft">
+                <span class="badge bg-light text-primary px-3 py-2 rounded-pill fw-bold mb-3 animate__animated animate__fadeInDown animate__delay-1s">POWERFUL & INTUITIVE</span>
+                <h1 class="display-4 fw-bold text-white mb-3 animate__animated animate__fadeInUp animate__delay-1s">Streamlined Support Management</h1>
+                <h2 class="h3 text-light fw-light mb-4 animate__animated animate__fadeInUp animate__delay-2s">The most efficient way to handle customer inquiries and technical issues</h2>
+                <p class="lead text-light opacity-90 mb-4 animate__animated animate__fadeInUp animate__delay-2s">Our Ticket Management System helps organizations track, prioritize, and solve customer support tickets with ease and efficiency.</p>
+                {% if not user.is_authenticated %}
+                <div class="mt-4 d-flex gap-3 animate__animated animate__fadeInUp animate__delay-3s">
+                    <a href="{% url 'register' %}" class="btn btn-light btn-lg px-4 py-2 btn-glow">
+                        <i class="fas fa-user-plus me-2"></i>Get Started
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-4 py-2 btn-glow">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                </div>
+                {% else %}
+                <div class="mt-4 d-flex gap-3 animate__animated animate__fadeInUp animate__delay-3s">
+                    <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg px-4 py-2 btn-glow">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </a>
+                    <a href="{% url 'create_ticket' %}" class="btn btn-outline-light btn-lg px-4 py-2 btn-glow">
+                        <i class="fas fa-plus-circle me-2"></i>New Ticket
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 text-center position-relative animate__animated animate__fadeInRight d-none d-lg-block">
+                <div class="hero-blob-1"></div>
+                <div class="hero-blob-2"></div>
+                <div class="hero-image-container animate__animated animate__pulse animate__infinite animate__slower">
+                    <img src="/static/img/TMS.png" alt="TMS Logo" class="img-fluid hero-image" style="max-width: 80%; position: relative; z-index: 5;">
+                </div>
+                <!-- Floating Elements -->
+                <div class="floating-icon" style="top: 20%; left: 10%;">
+                    <i class="fas fa-ticket-alt bg-white text-primary p-3 rounded-circle shadow-lg"></i>
+                </div>
+                <div class="floating-icon" style="top: 70%; right: 15%;">
+                    <i class="fas fa-headset bg-white text-primary p-3 rounded-circle shadow-lg"></i>
+                </div>
+                <div class="floating-icon" style="bottom: 20%; left: 20%;">
+                    <i class="fas fa-chart-line bg-white text-primary p-3 rounded-circle shadow-lg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Benefits Section with Stats -->
+<div class="container-fluid bg-light py-5">
+    <div class="container py-4">
+        <div class="row text-center mb-5">
+            <div class="col-md-4 animate__animated animate__fadeInUp" data-wow-delay="0.1s">
+                <div class="display-4 fw-bold text-primary mb-2"><i class="fas fa-clock"></i></div>
+                <h3 class="h2 mb-3">50% Less Time</h3>
+                <p class="text-muted">Reduce your support resolution time by half with our streamlined process</p>
+            </div>
+            <div class="col-md-4 animate__animated animate__fadeInUp" data-wow-delay="0.2s">
+                <div class="display-4 fw-bold text-primary mb-2"><i class="fas fa-smile"></i></div>
+                <h3 class="h2 mb-3">98% Satisfaction</h3>
+                <p class="text-muted">Our customers report exceptionally high satisfaction rates</p>
+            </div>
+            <div class="col-md-4 animate__animated animate__fadeInUp" data-wow-delay="0.3s">
+                <div class="display-4 fw-bold text-primary mb-2"><i class="fas fa-chart-line"></i></div>
+                <h3 class="h2 mb-3">24/7 Support</h3>
+                <p class="text-muted">Around-the-clock support availability for your business needs</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-primary px-3 py-2 rounded-pill fw-normal mb-2 animate__animated animate__fadeInUp animate__visibility-hidden">POWERFUL FEATURES</span>
+        <h2 class="display-5 fw-bold animate__animated animate__fadeInUp animate__visibility-hidden">Everything You Need</h2>
+        <p class="lead text-muted w-75 mx-auto animate__animated animate__fadeInUp animate__visibility-hidden">Our comprehensive ticket management solution provides all the tools needed for efficient customer support</p>
+    </div>
+    <div class="row g-4">
+        <div class="col-lg-4 col-md-6 animate__animated animate__visibility-hidden">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <h3 class="h4 mt-4 mb-3">Ticket Management</h3>
+                <p class="text-muted">Create, assign, and track support tickets with ease. Organize requests and never miss an important customer issue.</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 animate__animated animate__visibility-hidden">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3 class="h4 mt-4 mb-3">Knowledge Base</h3>
+                <p class="text-muted">Build a comprehensive FAQ section to help customers find answers quickly without waiting for support.</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 animate__animated animate__visibility-hidden">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="h4 mt-4 mb-3">Analytics & Reporting</h3>
+                <p class="text-muted">Gain insights into support performance with detailed analytics and customizable reports.</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 animate__animated animate__visibility-hidden">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="h4 mt-4 mb-3">Team Collaboration</h3>
+                <p class="text-muted">Work together seamlessly with internal notes, assignments, and status updates for better teamwork.</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 animate__animated animate__visibility-hidden">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <h3 class="h4 mt-4 mb-3">Notifications</h3>
+                <p class="text-muted">Stay informed with real-time alerts and notifications about ticket updates and customer responses.</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 animate__animated animate__visibility-hidden">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <h3 class="h4 mt-4 mb-3">Customization</h3>
+                <p class="text-muted">Tailor the system to your needs with custom fields, workflows, and branding options.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="container-fluid py-5" style="background-color: #f8f9fa;">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-7 animate__animated animate__visibility-hidden">
+                <h2 class="display-5 fw-bold">Ready to Transform Your Customer Support?</h2>
+                <p class="lead text-muted mt-3">Join thousands of businesses that use our system to deliver exceptional customer service</p>
+                <div class="mt-4 d-flex flex-wrap gap-3">
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-rocket me-2"></i>Get Started Now
+                    </a>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="fas fa-headset me-2"></i>Talk to Sales
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block animate__animated animate__visibility-hidden">
+                <img src="/static/img/customer-support.svg" alt="Customer Support" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="container-fluid py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary px-3 py-2 rounded-pill fw-normal mb-2 animate__animated animate__visibility-hidden">TESTIMONIALS</span>
+            <h2 class="display-5 fw-bold animate__animated animate__visibility-hidden">What Our Customers Say</h2>
+            <p class="lead text-muted w-75 mx-auto animate__animated animate__visibility-hidden">Trusted by businesses worldwide to deliver exceptional customer support experiences</p>
+        </div>
+        <div class="row g-4 testimonial-slider">
+            <div class="col-lg-4 animate__animated animate__visibility-hidden">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p class="mb-4">"This system has revolutionized how we handle customer support. Response times are down by 45% and customer satisfaction is at an all-time high."</p>
+                        <div class="testimonial-rating mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-author d-flex align-items-center">
+                        <div class="testimonial-avatar me-3">
+                            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah Johnson" class="rounded-circle">
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Sarah Johnson</h5>
+                            <p class="mb-0 text-muted">Support Manager, TechCorp</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 animate__animated animate__visibility-hidden">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p class="mb-4">"The knowledge base feature has reduced our incoming tickets by 30%. Our team can now focus on complex issues while customers help themselves."</p>
+                        <div class="testimonial-rating mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-author d-flex align-items-center">
+                        <div class="testimonial-avatar me-3">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="rounded-circle">
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Michael Chen</h5>
+                            <p class="mb-0 text-muted">CTO, GlobalRetail</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 animate__animated animate__visibility-hidden">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p class="mb-4">"Easy to implement and use. We were up and running in less than a day, and the analytics have helped us identify bottlenecks in our process."</p>
+                        <div class="testimonial-rating mb-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <div class="testimonial-author d-flex align-items-center">
+                        <div class="testimonial-avatar me-3">
+                            <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Elizabeth Parker" class="rounded-circle">
+                        </div>
+                        <div>
+                            <h5 class="mb-0">Elizabeth Parker</h5>
+                            <p class="mb-0 text-muted">Customer Experience, FinanceHub</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Preview Section -->
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-primary px-3 py-2 rounded-pill fw-normal mb-2 animate__animated animate__visibility-hidden">KNOWLEDGE BASE</span>
+        <h2 class="display-5 fw-bold animate__animated animate__visibility-hidden">Frequently Asked Questions</h2>
+        <p class="lead text-muted w-75 mx-auto animate__animated animate__visibility-hidden">Find quick answers to common questions about our ticket management system</p>
+    </div>
+    <div class="row g-4">
+        {% for faq in faqs %}
+        <div class="col-lg-6 animate__animated animate__visibility-hidden">
+            <div class="faq-card">
+                <h3 class="h5 mb-3">{{ faq.question }}</h3>
+                <p class="text-muted mb-0">{{ faq.answer|truncatewords:25 }} <a href="{% url 'faq' %}#faq-{{ faq.id }}" class="text-primary">Read more</a></p>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p>No FAQs available at the moment.</p>
+        </div>
+        {% endfor %}
+        <div class="col-12 text-center mt-4 animate__animated animate__visibility-hidden">
+            <a href="{% url 'faq' %}" class="btn btn-outline-primary px-4 py-2">
+                <i class="fas fa-book-open me-2"></i>View All FAQs
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Initialize animations on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const animatedElements = document.querySelectorAll('.animate__animated.animate__visibility-hidden');
+        const elementInView = (el) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return elementTop <= window.innerHeight * 0.8;
+        };
+        
+        const displayScrollElement = (element) => {
+            element.classList.add('animate__fadeInUp');
+            element.classList.remove('animate__visibility-hidden');
+        };
+        
+        const hideScrollElement = (element) => {
+            element.classList.remove('animate__fadeInUp');
+            element.classList.add('animate__visibility-hidden');
+        };
+        
+        const handleScrollAnimation = () => {
+            animatedElements.forEach((el) => {
+                if (elementInView(el)) {
+                    displayScrollElement(el);
+                } else {
+                    hideScrollElement(el);
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', handleScrollAnimation);
+        // Trigger once on load
+        handleScrollAnimation();
+        
+        // Counter animation
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // The lower the slower
+        
+        const animateCounter = () => {
+            counters.forEach(counter => {
+                const target = +counter.innerText;
+                const count = 0;
+                const inc = target / speed;
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(animateCounter, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            });
+        };
+        
+        if (counters.length > 0) {
+            animateCounter();
+        }
+    });
+</script>
+{% endblock %}

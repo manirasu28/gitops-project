@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Ticket Management System{% endblock %}</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Custom CSS -->
+    {% block extra_css %}{% endblock %}
+    <style>
+        :root {
+            --primary-color: #0a326e;
+            --secondary-color: #031329;
+            --accent-color: #3c5fa7;
+            --light-bg: #f8f9fa;
+            --transition-speed: 0.3s;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        
+        /* Navbar styling */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .navbar-brand img {
+            height: 42px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+        
+        .navbar-brand:hover img {
+            transform: scale(1.08) rotate(2deg);
+        }
+        
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.5);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease-out;
+        }
+        
+        .navbar-brand:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .nav-item {
+            margin: 0 5px;
+            position: relative;
+        }
+        
+        .nav-link {
+            padding: 0.5rem 1rem;
+            position: relative;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: all 0.4s ease;
+            border-radius: 4px;
+        }
+        
+        .nav-link:not(.active):hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            color: white !important;
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background-color: white;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: center;
+        }
+        
+        .nav-link:hover::before, .nav-link.active::before {
+            transform: scaleX(1);
+        }
+        
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white !important;
+            font-weight: 600;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-nav .nav-item {
+            opacity: 0;
+            animation: fadeInDown 0.5s forwards;
+        }
+        
+        .navbar-nav .nav-item:nth-child(1) { animation-delay: 0.1s; }
+        .navbar-nav .nav-item:nth-child(2) { animation-delay: 0.2s; }
+        .navbar-nav .nav-item:nth-child(3) { animation-delay: 0.3s; }
+        .navbar-nav .nav-item:nth-child(4) { animation-delay: 0.4s; }
+        .navbar-nav .nav-item:nth-child(5) { animation-delay: 0.5s; }
+        .navbar-nav .nav-item:nth-child(6) { animation-delay: 0.6s; }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive tweaks */
+        @media (max-width: 992px) {
+            .navbar-collapse {
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+                border-radius: 0 0 10px 10px;
+                padding: 10px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-link::before {
+                display: none;
+            }
+            
+            .nav-link:hover {
+                padding-left: 1.5rem;
+            }
+        }
+        
+        /* Button styling */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 5px rgba(10, 50, 110, 0.2);
+            transition: all var(--transition-speed);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(10, 50, 110, 0.3);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all var(--transition-speed);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Glowing button effect */
+        .btn-glow {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(30deg);
+            transition: transform 0.8s ease;
+            z-index: -1;
+        }
+        
+        .btn-glow:hover::after {
+            transform: rotate(30deg) translateX(100%);
+        }
+        
+        /* Card styling */
+        .card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all var(--transition-speed);
+            margin-bottom: 20px;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-header {
+            background-color: #f1f5f9;
+            border-bottom: 1px solid #e5e9f0;
+            padding: 15px 20px;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--primary-color));
+            background-size: 200% 100%;
+            animation: gradientShift 4s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        
+        .footer-brand img {
+            transition: transform 0.3s ease;
+        }
+        
+        .footer-brand:hover img {
+            transform: scale(1.05);
+        }
+        
+        .footer-heading {
+            position: relative;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+        
+        .footer-links .nav-link {
+            color: #6c757d;
+            padding: 0.4rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links .nav-link:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px);
+            background-color: var(--accent-color);
+            box-shadow: 0 5px 15px rgba(60, 95, 167, 0.3);
+        }
+        
+        /* Fix for logout form button */
+        #logout-form button {
+            background: none;
+            border: none;
+            padding: 0.25rem 1rem;
+            text-align: left;
+            transition: background-color var(--transition-speed);
+        }
+        
+        #logout-form button:hover {
+            background-color: #f1f5f9;
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .slide-in {
+            animation: slideIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Hero Section Styling */
+        .hero-blob-1 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: -30px;
+            left: -20px;
+            z-index: 1;
+            animation: blob-float 6s ease-in-out infinite alternate;
+            filter: blur(2px);
+        }
+        
+        .hero-blob-2 {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            bottom: -40px;
+            right: 10px;
+            z-index: 1;
+            animation: blob-float 8s ease-in-out infinite alternate-reverse;
+            filter: blur(2px);
+        }
+        
+        @keyframes blob-float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(10px, 20px) scale(1.05); }
+            100% { transform: translate(-10px, 10px) scale(1); }
+        }
+        
+        .hero-image-container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            z-index: 10;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-icon:nth-child(odd) {
+            animation-duration: 8s;
+        }
+        
+        .floating-icon:nth-child(even) {
+            animation-duration: 7s;
+            animation-delay: 1s;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Stats Section Styling */
+        .stat-card {
+            padding: 1.5rem;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .counter {
+            display: inline-block;
+        }
+        
+        /* Feature Card Styling */
+        .feature-card {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(225deg, var(--primary-color) 0%, transparent 100%);
+            opacity: 0.05;
+            border-radius: 0 10px 0 50%;
+            z-index: -1;
+            transition: all 0.5s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card:hover::before {
+            width: 150%;
+            height: 150%;
+            opacity: 0.08;
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: rgba(10, 50, 110, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-icon i {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            background-color: var(--primary-color);
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .feature-card:hover .feature-icon i {
+            color: white;
+            transform: scale(1.2);
+        }
+        
+        /* Testimonial Card Styling */
+        .testimonial-card {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonial-card::before {
+            content: '\201C'; /* Opening quotation mark */
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 120px;
+            color: rgba(10, 50, 110, 0.05);
+            font-family: 'Georgia', serif;
+            line-height: 1;
+            z-index: 0;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-rating i {
+            color: #ffc107;
+            margin-right: 2px;
+        }
+        
+        .testimonial-avatar img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* FAQ Card Styling */
+        .faq-card {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .faq-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Utility class to hide elements until animated */
+        .animate__visibility-hidden {
+            visibility: hidden;
+        }
+        
+        /* Form styling */
+        .form-control {
+            padding: 0.6rem 0.75rem;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(10, 50, 110, 0.15);
+        }
+        
+        .input-group-text {
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group:focus-within .input-group-text {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .form-check-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(10, 50, 110, 0.15);
+        }
+        
+        /* Auth pages specific styling */
+        .auth-side-image {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-side-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 50, 110, 0.9) 0%, rgba(26, 77, 149, 0.8) 100%);
+            z-index: 1;
+        }
+        
+        .auth-side-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .auth-feature-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-feature:hover .auth-feature-icon {
+            transform: scale(1.1);
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand animate__animated animate__fadeIn" href="{% url 'home' %}">
+                <img src="/static/img/TMS.png" alt="TMS Logo" class="me-2">
+                <!-- <span class="d-none d-sm-inline-block ms-1 fw-bold">TMS</span> -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'faq' %}active{% endif %}" href="{% url 'faq' %}">
+                            <i class="fas fa-question-circle me-1"></i>FAQ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">
+                            <i class="fas fa-info-circle me-1"></i>About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">
+                            <i class="fas fa-envelope me-1"></i>Contact Us
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'ticket_list' %}active{% endif %}" href="{% url 'ticket_list' %}">
+                            <i class="fas fa-ticket-alt me-1"></i>My Tickets
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'create_ticket' %}active{% endif %}" href="{% url 'create_ticket' %}">
+                            <i class="fas fa-plus-circle me-1"></i>New Ticket
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <div class="d-flex align-items-center">
+                    {% if user.is_authenticated %}
+                    <div class="dropdown animate__animated animate__fadeIn">
+                        <button class="btn btn-outline-light dropdown-toggle position-relative" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <span class="d-none d-sm-inline-block">{{ user.username }}</span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                <i class="fas fa-circle fa-xs"></i>
+                                <span class="visually-hidden">Active</span>
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg animate__animated animate__fadeIn animate__faster" aria-labelledby="userDropdown">
+                            <li class="dropdown-header text-center">{{ user.email }}</li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-id-card me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{% url 'ticket_list' %}"><i class="fas fa-ticket-alt me-2"></i>My Tickets</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form id="logout-form" method="post" action="{% url 'logout' %}" class="dropdown-item p-0">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item w-100 text-start text-danger">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <div class="animate__animated animate__fadeIn" style="animation-delay: 0.7s;">
+                        <a href="{% url 'login' %}" class="btn btn-light btn-glow me-2">
+                            <i class="fas fa-sign-in-alt me-1"></i>
+                            <span class="d-none d-sm-inline-block">Login</span>
+                        </a>
+                        <a href="{% url 'register' %}" class="btn btn-outline-light btn-glow">
+                            <i class="fas fa-user-plus me-1"></i>
+                            <span class="d-none d-sm-inline-block">Sign Up</span>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="container main-content py-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto">
+        <div class="container py-5">
+            <div class="row g-4 animate__animated animate__fadeIn">
+                <div class="col-lg-4 mb-3">
+                    <div class="footer-brand mb-3">
+                        <img src="/static/img/TMS.png" alt="TMS Logo" height="40" class="mb-3">
+                        <h5 class="text-dark">Ticket Management System</h5>
+                    </div>
+                    <p class="text-muted mb-3">Streamlining customer support with efficient ticket management, knowledge base solutions, and seamless team collaboration.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-3">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="nav flex-column footer-links">
+                        <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-0"><i class="fas fa-chevron-right me-1 small"></i> Home</a></li>
+                        <li class="nav-item"><a href="{% url 'about' %}" class="nav-link px-0"><i class="fas fa-chevron-right me-1 small"></i> About</a></li>
+                        <li class="nav-item"><a href="{% url 'faq' %}" class="nav-link px-0"><i class="fas fa-chevron-right me-1 small"></i> FAQ</a></li>
+                        <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link px-0"><i class="fas fa-chevron-right me-1 small"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-3">
+                    <h5 class="footer-heading">Support</h5>
+                    <ul class="nav flex-column footer-links">
+                        <li class="nav-item"><a href="{% url 'login' %}" class="nav-link px-0"><i class="fas fa-chevron-right me-1 small"></i> Login</a></li>
+                        <li class="nav-item"><a href="{% url 'register' %}" class="nav-link px-0"><i class="fas fa-chevron-right me-1 small"></i> Register</a></li>
+                        <li class="nav-item"><a href="{% url 'faq' %}" class="nav-link px-0"><i class="fas fa-chevron-right me-1 small"></i> Knowledge Base</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link px-0"><i class="fas fa-chevron-right me-1 small"></i> Ticket System</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4 mb-3">
+                    <h5 class="footer-heading">Contact Us</h5>
+                    <ul class="nav flex-column footer-links">
+                        <li class="nav-item d-flex align-items-center mb-2">
+                            <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+                            <span>123 Business Avenue, Office Park, CA 94107</span>
+                        </li>
+                        <li class="nav-item d-flex align-items-center mb-2">
+                            <i class="fas fa-phone me-2 text-primary"></i>
+                            <span>+1 234 567 8901</span>
+                        </li>
+                        <li class="nav-item d-flex align-items-center mb-2">
+                            <i class="fas fa-envelope me-2 text-primary"></i>
+                            <span>support@ticketsystem.com</span>
+                        </li>
+                        <li class="nav-item d-flex align-items-center">
+                            <i class="fas fa-clock me-2 text-primary"></i>
+                            <span>Monday - Friday: 9AM - 5PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-md-0">&copy; {% now "Y" %} Ticket Management System. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="#" class="text-decoration-none">Privacy Policy</a></li>
+                        <li class="list-inline-item"><span class="text-muted mx-2">|</span></li>
+                        <li class="list-inline-item"><a href="#" class="text-decoration-none">Terms of Service</a></li>
+                        <li class="list-inline-item"><span class="text-muted mx-2">|</span></li>
+                        <li class="list-inline-item"><a href="#" class="text-decoration-none">Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,444 @@
+{% extends 'base.html' %}
+{% load ticket_tags %}
+
+{% block title %}Ticket #{{ ticket.id }} - Ticket Management System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>
+                    Ticket #{{ ticket.id }}
+                    {% if ticket.status == 'pending' %}
+                    <span class="badge bg-warning text-dark ms-2">Pending</span>
+                    {% elif ticket.status == 'in_progress' %}
+                    <span class="badge bg-info text-dark ms-2">In Progress</span>
+                    {% elif ticket.status == 'resolved' %}
+                    <span class="badge bg-success ms-2">Resolved</span>
+                    {% elif ticket.status == 'closed' %}
+                    <span class="badge bg-secondary ms-2">Closed</span>
+                    {% endif %}
+                </h1>
+                <div>
+                    <a href="{% url 'ticket_list' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-list me-2"></i>All Tickets
+                    </a>
+                    <a href="{% url 'dashboard' %}" class="btn btn-outline-primary ms-2">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Content Area -->
+        <div class="col-lg-8">
+            <!-- Ticket Details Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">{{ ticket.title }}</h3>
+                        <div>
+                            {% if ticket.priority == 'low' %}
+                            <span class="badge bg-success">Low Priority</span>
+                            {% elif ticket.priority == 'medium' %}
+                            <span class="badge bg-info">Medium Priority</span>
+                            {% elif ticket.priority == 'high' %}
+                            <span class="badge bg-warning text-dark">High Priority</span>
+                            {% elif ticket.priority == 'urgent' %}
+                            <span class="badge bg-danger">Urgent Priority</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>Category:</strong> {{ ticket.category.name }}
+                            </div>
+                            <div>
+                                <strong>Created:</strong> {{ ticket.created_at|date:"M d, Y H:i" }}
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <div>
+                                <strong>Submitted by:</strong> {{ ticket.user.username }}
+                            </div>
+                            <div>
+                                <strong>Assigned to:</strong> 
+                                {% if ticket.assigned_to %}
+                                    {{ ticket.assigned_to.username }}
+                                {% else %}
+                                    <span class="text-muted">Unassigned</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h5>Description</h5>
+                        <div class="p-3 bg-light rounded">
+                            {{ ticket.description|linebreaks }}
+                        </div>
+                    </div>
+                    
+                    {% if ticket_files %}
+                    <div class="mt-4">
+                        <h5>Attachments</h5>
+                        <div class="list-group">
+                            {% for file in ticket_files %}
+                                {% if not file.related_to %}
+                                <a href="{{ file.file.url }}" class="list-group-item list-group-item-action" target="_blank">
+                                    <i class="fas fa-file me-2"></i>
+                                    {{ file.file.name|slice:"7:" }} - Added by {{ file.uploaded_by.username }}
+                                </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Timeline -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Ticket Timeline</h4>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        {% if timeline %}
+                            {% for item in timeline %}
+                                <div class="timeline-item">
+                                    <div class="timeline-marker {% if item.type == 'response' %}bg-primary{% else %}bg-secondary{% endif %}"></div>
+                                    <div class="timeline-content">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div>
+                                                <strong>
+                                                    {{ item.user.username }}
+                                                    {% if item.user == ticket.assigned_to %}
+                                                    <span class="badge bg-primary ms-2">Support Agent</span>
+                                                    {% elif item.user.user_meta.role.name == 'admin' %}
+                                                    <span class="badge bg-danger ms-2">Admin</span>
+                                                    {% endif %}
+                                                </strong>
+                                                {% if item.type == 'action' %}
+                                                <span class="badge bg-info ms-2">{{ item.action_type }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <small class="text-muted">{{ item.time|date:"M d, Y H:i" }}</small>
+                                        </div>
+                                        <div class="p-3 bg-light rounded{% if item.user.user_meta.role.name != 'customer' %} border-start border-primary border-3{% endif %}">
+                                            {% if item.type == 'action' %}
+                                                {% if item.action_taken %}
+                                                <div class="mb-2">
+                                                    <strong>Action taken:</strong> {{ item.action_taken }}
+                                                </div>
+                                                {% endif %}
+                                                
+                                                {% if item.resolution_summary %}
+                                                <div class="mb-2">
+                                                    <strong>Resolution summary:</strong>
+                                                    <div class="ps-3 mt-1">
+                                                        {{ item.resolution_summary|linebreaks }}
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                                
+                                                {% if item.content %}
+                                                <div class="{% if item.action_taken or item.resolution_summary %}mt-3{% endif %}">
+                                                    <strong>Notes:</strong>
+                                                    <div class="ps-3 mt-1">
+                                                        {{ item.content|linebreaks }}
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            {% else %}
+                                                {{ item.content|linebreaks }}
+                                            {% endif %}
+                                        </div>
+                                        
+                                        {% if item.type == 'response' and item.files %}
+                                            <div class="mt-2 ps-3">
+                                                <strong><i class="fas fa-paperclip me-1"></i> Attachments:</strong>
+                                                <div class="list-group mt-1">
+                                                    {% for file in item.files %}
+                                                    <a href="{{ file.file.url }}" class="list-group-item list-group-item-action py-2" target="_blank">
+                                                        <i class="fas fa-file me-2"></i>
+                                                        {{ file.file.name|slice:"7:" }}
+                                                    </a>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i> No responses or actions yet.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Response Form -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Add Response</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="response">
+                        
+                        <div class="mb-3">
+                            <label for="id_content" class="form-label">Your Response</label>
+                            {{ response_form.message }}
+                            {% if response_form.message.errors %}
+                            <div class="text-danger">
+                                {{ response_form.message.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Attachments (Optional)</label>
+                            <input type="file" name="attachments" class="form-control" multiple>
+                            <div class="form-text">You can upload multiple files (max 10MB each). Supported formats: images, documents, etc.</div>
+                        </div>
+                        
+                        <button type="submit" name="response_submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane me-2"></i>Submit Response
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Ticket Actions (Admin/Support Only) -->
+            {% if role == 'admin' or role == 'support' %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Ticket Actions</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="action">
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="action_type" class="form-label">Action Type</label>
+                                {{ action_form.action_type }}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="status" class="form-label">Update Status</label>
+                                <select name="status" id="status" class="form-select">
+                                    <option value="">Keep current status</option>
+                                    {% for status_code, status_name in ticket.STATUS_CHOICES %}
+                                    <option value="{{ status_code }}" {% if ticket.status == status_code %}selected{% endif %}>{{ status_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_action_taken" class="form-label">Action Taken</label>
+                            {{ action_form.action_taken }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_resolution_summary" class="form-label">Resolution Summary</label>
+                            {{ action_form.resolution_summary }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_notes" class="form-label">Action Notes</label>
+                            {{ action_form.notes }}
+                        </div>
+                        
+                        {% if role == 'admin' %}
+                        <div class="mb-3">
+                            <label for="assigned_to" class="form-label">Assign To</label>
+                            <select name="assigned_to" id="assigned_to" class="form-select">
+                                <option value="">Unassigned</option>
+                                {% get_support_agents as support_agents %}
+                                {% for agent in support_agents %}
+                                <option value="{{ agent.id }}" {% if ticket.assigned_to == agent %}selected{% endif %}>{{ agent.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+                        
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-check-circle me-2"></i>Submit Action
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Ticket Status Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Ticket Status</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>Status:</div>
+                        <div>
+                            {% if ticket.status == 'pending' %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                            {% elif ticket.status == 'in_progress' %}
+                            <span class="badge bg-info text-dark">In Progress</span>
+                            {% elif ticket.status == 'resolved' %}
+                            <span class="badge bg-success">Resolved</span>
+                            {% elif ticket.status == 'closed' %}
+                            <span class="badge bg-secondary">Closed</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>Priority:</div>
+                        <div>
+                            {% if ticket.priority == 'low' %}
+                            <span class="badge bg-success">Low</span>
+                            {% elif ticket.priority == 'medium' %}
+                            <span class="badge bg-info">Medium</span>
+                            {% elif ticket.priority == 'high' %}
+                            <span class="badge bg-warning text-dark">High</span>
+                            {% elif ticket.priority == 'urgent' %}
+                            <span class="badge bg-danger">Urgent</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>Created:</div>
+                        <div>{{ ticket.created_at|date:"M d, Y" }}</div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>Last Updated:</div>
+                        <div>{{ ticket.updated_at|date:"M d, Y" }}</div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>Assigned To:</div>
+                        <div>
+                            {% if ticket.assigned_to %}
+                            <span class="badge bg-primary">{{ ticket.assigned_to.username }}</span>
+                            {% else %}
+                            <span class="text-muted">Unassigned</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            {% if role == 'customer' and ticket.status != 'closed' %}
+            <!-- Customer Actions -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Customer Actions</h4>
+                </div>
+                <div class="card-body">
+                    {% if ticket.status == 'resolved' %}
+                    <div class="alert alert-success mb-3">
+                        <i class="fas fa-check-circle me-2"></i> Your ticket has been marked as resolved. If your issue is not completely fixed, please reply or reopen the ticket.
+                    </div>
+                    
+                    <form method="post" class="mb-3">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="action">
+                        <input type="hidden" name="action_type" value="reopen">
+                        <input type="hidden" name="status" value="in_progress">
+                        <input type="hidden" name="notes" value="Customer reopened the ticket">
+                        <button type="submit" class="btn btn-warning w-100">
+                            <i class="fas fa-redo me-2"></i>Reopen Ticket
+                        </button>
+                    </form>
+                    {% endif %}
+                    
+                    <a href="{% url 'faq' %}" class="btn btn-outline-primary w-100 mb-2">
+                        <i class="fas fa-question-circle me-2"></i>View Related FAQs
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Add custom CSS for timeline -->
+<style>
+.timeline {
+    position: relative;
+    padding-left: 1.5rem;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #ddd;
+}
+.timeline-item {
+    position: relative;
+    padding-bottom: 1.5rem;
+}
+.timeline-marker {
+    position: absolute;
+    left: -1.5rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    top: 0.25rem;
+}
+.timeline-content {
+    padding-left: 0.5rem;
+}
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    // Function to toggle visibility of resolution fields based on action type
+    function toggleResolutionFields() {
+        const actionType = $('#id_action_type').val();
+        const resolutionFields = ['#id_resolution_summary', 'label[for=id_resolution_summary]'];
+        
+        // Show resolution fields for relevant action types
+        if (actionType === 'resolve' || actionType === 'escalate' || actionType === 'update') {
+            $(resolutionFields.join(', ')).show();
+        } else {
+            $(resolutionFields.join(', ')).hide();
+        }
+        
+        // Show action taken field for most actions except notes
+        if (actionType === 'note') {
+            $('#id_action_taken, label[for=id_action_taken]').hide();
+        } else {
+            $('#id_action_taken, label[for=id_action_taken]').show();
+        }
+    }
+    
+    // Initialize visibility
+    toggleResolutionFields();
+    
+    // Add event listener for action type changes
+    $('#id_action_type').on('change', toggleResolutionFields);
+});
+</script>
+{% endblock %}

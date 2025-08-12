@@ -1,0 +1,81 @@
+{% load i18n static jazzmin %}{% get_jazzmin_ui_tweaks as jazzmin_ui %}{% get_jazzmin_settings request as jazzmin_settings %}
+
+<nav class="main-header navbar navbar-expand navbar-dark" id="jazzy-navbar" style="background-color: #051d42 !important; display: flex; flex-wrap: nowrap; align-items: center; height: 58px;">
+    <ul class="navbar-nav" style="display: flex; align-items: center; flex-direction: row; height: 100%; flex-wrap: nowrap;">
+        {% if jazzmin_settings.show_sidebar %}
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+        {% endif %}
+
+        {% get_menu_items jazzmin_settings.topmenu_links request.user request.current_app as top_menu_items %}
+        {% for link in top_menu_items %}
+            <li class="nav-item d-none d-sm-inline-block{% if link.children %} dropdown{% endif %}">
+                {% if link.children %}
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ link.name }}
+                    </a>
+                    <div class="dropdown-menu">
+                        {% for child in link.children %}
+                            <a class="dropdown-item" href="{{ child.url }}">
+                                {{ child.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <a href="{{ link.url }}" class="nav-link">
+                        {{ link.name }}
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if jazzmin_settings.search_model and jazzmin_settings.search_model|jazzy_menu_search_form_enabled:request.user %}
+        <div class="form-inline ml-3" style="margin-left: auto !important; margin-right: 2rem !important; flex: 0 0 auto !important; max-width: 400px !important; min-width: 250px !important; display: flex !important; justify-content: flex-end !important; height: 40px !important;">
+            <div class="input-group" style="width: 100% !important; height: 40px !important; display: flex !important; flex-direction: row !important; flex-wrap: nowrap !important; position: relative !important; border-radius: 50px !important; overflow: hidden !important; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important; background-color: rgba(255, 255, 255, 0.15) !important;">
+                <input class="form-control form-control-navbar" type="search" placeholder="{% trans 'Search' %} {{ jazzmin_settings.search_model_name }}..." aria-label="{% trans 'Search' %} {{ jazzmin_settings.search_model_name }}..." name="q" style="background-color: transparent !important; border: none !important; color: white !important; padding: 0.6rem 1.2rem !important; padding-right: 50px !important; font-size: 0.9rem !important; width: 100% !important; height: 40px !important;">
+                <div class="input-group-append" style="position: absolute !important; right: 0 !important; top: 0 !important; height: 40px !important; display: flex !important;">
+                    <button class="btn btn-navbar" type="submit" style="background-color: transparent !important; border: none !important; color: white !important; padding: 0 1.2rem !important; height: 40px !important; width: 50px !important; position: relative !important; z-index: 5 !important;">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <ul class="navbar-nav ml-auto" style="display: flex; align-items: center; flex-direction: row; height: 100%; flex-wrap: nowrap;">
+
+        {% block language_chooser %}{% endblock %}
+
+        {% if jazzmin_settings.show_ui_builder %}
+        <li class="nav-item">
+            <a class="nav-link text-primary" href="{% url 'admin:jazzmin_ui_customiser' %}"><i class="fas fa-palette"></i></a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item dropdown">
+            <a class="nav-link btn" data-toggle="dropdown" href="#" title="{{ request.user }}">
+                <i class="far fa-user" aria-hidden="true"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="jazzy-usermenu">
+                <span class="dropdown-header">{% trans 'Account' %}</span>
+                <div class="dropdown-divider"></div>
+                <a href="{% url 'admin:password_change' %}" class="dropdown-item">
+                    <i class="fas fa-key mr-2"></i> {% trans 'Change password' %}
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="{% url 'admin:logout' %}" class="dropdown-item">
+                    <i class="fas fa-users mr-2"></i> {% trans 'Log out' %}
+                </a>
+                {% get_user_menu user as user_menu %}
+                {% if user_menu %}
+                <div class="dropdown-divider"></div>
+                {% for link in user_menu %}
+                    <a href="{{ link.url }}" class="dropdown-item dropdown-footer">{{ link.name }}</a>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </li>
+    </ul>
+</nav>

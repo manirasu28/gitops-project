@@ -1,0 +1,138 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% trans 'Staff Login' %} | TMS Administration</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'admin/css/custom_admin.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-logo {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 150px;
+            height: auto;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+        .card-body {
+            padding: 30px;
+        }
+        .form-control {
+            height: 45px;
+            border-radius: 5px;
+            box-shadow: none;
+            border: 1px solid #e1e5eb;
+        }
+        .form-control:focus {
+            border-color: #0a326e;
+            box-shadow: 0 0 0 0.2rem rgba(10, 50, 110, 0.15);
+        }
+        .btn-primary {
+            background-color: #0a326e;
+            border-color: #0a326e;
+            height: 45px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #051d42;
+            border-color: #051d42;
+        }
+        a {
+            color: #0a326e;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .errorlist {
+            color: #dc3545;
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="text-center mb-4">
+                    <img src="{% static 'img/TMS.png' %}" alt="TMS Logo" class="login-logo">
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light">
+                        <h3 class="mb-0 text-center">{% trans 'Staff Login' %}</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if form.errors and not form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% blocktrans %}Please correct the errors below.{% endblocktrans %}
+                        </div>
+                        {% endif %}
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <form method="post" action="{% url 'admin:login' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="id_username" class="form-label">{% trans 'Username' %}</label>
+                                <input type="text" name="username" id="id_username" class="form-control" placeholder="{% trans 'Username' %}" required autofocus>
+                                {% if form.username.errors %}
+                                    <ul class="errorlist">
+                                        {% for error in form.username.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_password" class="form-label">{% trans 'Password' %}</label>
+                                <input type="password" name="password" id="id_password" class="form-control" placeholder="{% trans 'Password' %}" required>
+                                {% if form.password.errors %}
+                                    <ul class="errorlist">
+                                        {% for error in form.password.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                            <input type="hidden" name="next" value="{{ next }}">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">{% trans 'Log in' %}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p><a href="/">{% trans 'Return to public site' %}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

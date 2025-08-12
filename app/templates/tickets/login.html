@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Ticket Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5 animate__animated animate__fadeIn">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg overflow-hidden">
+                <div class="row g-0">
+                    <!-- Left side with image and overlay -->
+                    <div class="col-lg-5 d-none d-lg-block position-relative">
+                        <div class="h-100" style="background: linear-gradient(135deg, rgba(10, 50, 110, 0.9) 0%, rgba(26, 77, 149, 0.8) 100%), url('/static/img/customer-support.svg') center/cover no-repeat;">
+                            <div class="d-flex flex-column justify-content-center h-100 text-white p-4">
+                                <div class="animate__animated animate__fadeInUp animate__delay-1s">
+                                    <h2 class="h3 fw-bold mb-4">Welcome Back</h2>
+                                    <p class="mb-4">Sign in to access your account and manage your support tickets.</p>
+                                    <div class="mb-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="bg-white rounded-circle p-2 me-3">
+                                                <i class="fas fa-ticket-alt text-primary"></i>
+                                            </div>
+                                            <span>View your ticket history</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="bg-white rounded-circle p-2 me-3">
+                                                <i class="fas fa-comments text-primary"></i>
+                                            </div>
+                                            <span>Respond to support messages</span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-white rounded-circle p-2 me-3">
+                                                <i class="fas fa-search text-primary"></i>
+                                            </div>
+                                            <span>Access knowledge base articles</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right side with form -->
+                    <div class="col-lg-7">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="text-center mb-4">
+                                <img src="/static/img/TMS.png" alt="TMS Logo" height="50" class="mb-3">
+                                <h2 class="h3 fw-bold">Sign In to Your Account</h2>
+                                <p class="text-muted">Enter your credentials to continue</p>
+                            </div>
+                            
+                            <form method="post" class="animate__animated animate__fadeInUp animate__delay-1s">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="id_username" class="form-label">Username</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
+                                        {{ form.username }}
+                                    </div>
+                                    {% if form.username.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.username.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="id_password" class="form-label">Password</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+                                        {{ form.password }}
+                                    </div>
+                                    {% if form.password.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.password.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="remember-me">
+                                            <label class="form-check-label small" for="remember-me">
+                                                Remember me
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <a href="{% url 'password_reset' %}" class="small text-primary">Forgot password?</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid mb-4">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-glow">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                                    </button>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <p class="mb-0">Don't have an account? <a href="{% url 'register' %}" class="text-primary fw-bold">Sign up</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

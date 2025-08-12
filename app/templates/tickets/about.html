@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+
+{% block title %}About - Ticket Management System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="container-fluid py-5" style="background: linear-gradient(135deg, #0a326e 0%, #1a4d95 100%);">
+    <div class="container py-2">
+        <div class="row align-items-center">
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold text-white mb-3 animate__animated animate__fadeInUp">About TMS</h1>
+                <div class="bg-white opacity-10 my-3" style="height: 1px; width: 150px; margin: 0 auto;"></div>
+                <p class="lead text-light mb-4 animate__animated animate__fadeInUp animate__delay-1s">Excellence in Customer Support Management</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Company Overview -->
+            <div class="card border-0 shadow-sm mb-5 animate__animated animate__fadeInUp">
+                <div class="card-body p-5">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0">
+                            <div class="position-relative">
+                                <div class="position-absolute bg-primary rounded-circle" style="width: 180px; height: 180px; opacity: 0.1; top: -20px; right: -20px;"></div>
+                                <img src="/static/img/customer-support.svg" alt="Support Team" class="img-fluid rounded position-relative" style="z-index: 1;">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 order-lg-1">
+                            <span class="badge bg-primary px-3 py-2 rounded-pill fw-normal mb-3">OUR MISSION</span>
+                            <h2 class="h1 mb-4">Transforming Customer Support</h2>
+                            <p class="lead">Our Ticket Management System (TMS) is designed to streamline and enhance the customer support experience by providing a robust platform for tracking and resolving customer issues efficiently.</p>
+                            <p>We believe in empowering both customers and support teams with the tools they need for effective communication and problem-solving.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Features Section -->
+            <h2 class="text-center display-5 fw-bold mb-5 animate__animated animate__fadeInUp">What Makes Us Different</h2>
+            <div class="row g-4 mb-5">
+                <div class="col-md-4 animate__animated animate__fadeInUp" data-wow-delay="0.1s">
+                    <div class="card h-100 border-0 shadow-sm hover-lift">
+                        <div class="card-body p-4 text-center">
+                            <div class="feature-icon bg-primary text-white rounded-circle mb-4 d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="fas fa-ticket-alt fa-2x"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Advanced Ticket Management</h3>
+                            <p class="text-muted">Create, track, and manage support tickets with ease. Our system provides real-time updates on ticket status and resolution progress.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animate__animated animate__fadeInUp" data-wow-delay="0.2s">
+                    <div class="card h-100 border-0 shadow-sm hover-lift">
+                        <div class="card-body p-4 text-center">
+                            <div class="feature-icon bg-primary text-white rounded-circle mb-4 d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="fas fa-comments fa-2x"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Seamless Communication</h3>
+                            <p class="text-muted">Direct communication between customers and support agents through our ticket response system, ensuring all interactions are documented.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animate__animated animate__fadeInUp" data-wow-delay="0.3s">
+                    <div class="card h-100 border-0 shadow-sm hover-lift">
+                        <div class="card-body p-4 text-center">
+                            <div class="feature-icon bg-primary text-white rounded-circle mb-4 d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="fas fa-chart-line fa-2x"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Real-time Analytics</h3>
+                            <p class="text-muted">Comprehensive dashboard with real-time analytics to track performance, response times, and customer satisfaction metrics.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- How It Works Section -->
+            <div class="card border-0 shadow-sm mb-5 bg-light animate__animated animate__fadeInUp">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-5">How It Works</h2>
+                    <div class="row g-4 text-center">
+                        <div class="col-md-3">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3 animate__animated animate__fadeInUp animate__delay-1s" style="width: 80px; height: 80px;">
+                                <h3 class="mb-0">1</h3>
+                            </div>
+                            <h4 class="mb-3">Submit a Ticket</h4>
+                            <p class="text-muted">Customers create a detailed ticket with their issue</p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3 animate__animated animate__fadeInUp animate__delay-2s" style="width: 80px; height: 80px;">
+                                <h3 class="mb-0">2</h3>
+                            </div>
+                            <h4 class="mb-3">Automatic Assignment</h4>
+                            <p class="text-muted">Tickets are assigned to the most qualified agent</p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3 animate__animated animate__fadeInUp animate__delay-3s" style="width: 80px; height: 80px;">
+                                <h3 class="mb-0">3</h3>
+                            </div>
+                            <h4 class="mb-3">Resolution</h4>
+                            <p class="text-muted">Agents work to resolve the issue efficiently</p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3 animate__animated animate__fadeInUp animate__delay-4s" style="width: 80px; height: 80px;">
+                                <h3 class="mb-0">4</h3>
+                            </div>
+                            <h4 class="mb-3">Follow Up</h4>
+                            <p class="text-muted">Quality assurance and customer satisfaction feedback</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Section -->
+            <h2 class="text-center display-5 fw-bold mb-5 animate__animated animate__fadeInUp">Our Team</h2>
+            <div class="row g-4 mb-4 text-center">
+                <div class="col-md-4 animate__animated animate__fadeInUp" data-wow-delay="0.1s">
+                    <div class="card h-100 border-0 shadow-sm hover-lift">
+                        <div class="card-body p-4">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 100px; height: 100px;">
+                                <i class="fas fa-user-tie fa-3x"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Experienced Leadership</h3>
+                            <p class="text-muted">Our leadership team brings decades of experience in customer service and software development.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animate__animated animate__fadeInUp" data-wow-delay="0.2s">
+                    <div class="card h-100 border-0 shadow-sm hover-lift">
+                        <div class="card-body p-4">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 100px; height: 100px;">
+                                <i class="fas fa-headset fa-3x"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Dedicated Support</h3>
+                            <p class="text-muted">Our certified support agents are available 24/7 to help you resolve any issues quickly and efficiently.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animate__animated animate__fadeInUp" data-wow-delay="0.3s">
+                    <div class="card h-100 border-0 shadow-sm hover-lift">
+                        <div class="card-body p-4">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 100px; height: 100px;">
+                                <i class="fas fa-code fa-3x"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Expert Developers</h3>
+                            <p class="text-muted">Our development team constantly improves the platform with new features and optimizations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Section -->
+            <div class="row g-4 mb-5 mt-5 animate__animated animate__fadeInUp">
+                <div class="col-md-3 text-center">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body py-5">
+                            <h2 class="display-4 fw-bold text-primary mb-0 counter">5000+</h2>
+                            <p class="text-muted mb-0 mt-2">Happy Customers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body py-5">
+                            <h2 class="display-4 fw-bold text-primary mb-0 counter">98%</h2>
+                            <p class="text-muted mb-0 mt-2">Satisfaction Rate</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body py-5">
+                            <h2 class="display-4 fw-bold text-primary mb-0 counter">24/7</h2>
+                            <p class="text-muted mb-0 mt-2">Support Available</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body py-5">
+                            <h2 class="display-4 fw-bold text-primary mb-0 counter">15+</h2>
+                            <p class="text-muted mb-0 mt-2">Years Experience</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="card border-0 shadow-sm bg-primary text-white mt-5 animate__animated animate__fadeInUp">
+                <div class="card-body p-5 text-center">
+                    <h2 class="h1 mb-4">Ready to Get Started?</h2>
+                    <p class="lead mb-4">Join thousands of companies that trust our Ticket Management System</p>
+                    <a href="{% url 'register' %}" class="btn btn-light btn-lg px-5 shadow-sm">
+                        <i class="fas fa-user-plus me-2"></i> Create an Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Initialize animations on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const animatedElements = document.querySelectorAll('.animate__animated:not(.animate__fadeInUp)');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__fadeInUp');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        animatedElements.forEach(element => {
+            observer.observe(element);
+        });
+        
+        // Counter animation
+        const counterElements = document.querySelectorAll('.counter');
+        counterElements.forEach(counter => {
+            counter.classList.add('animate__animated', 'animate__fadeIn');
+        });
+    });
+</script>
+{% endblock %}

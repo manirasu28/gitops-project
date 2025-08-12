@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Ticket Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5 animate__animated animate__fadeIn">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg overflow-hidden">
+                <div class="row g-0">
+                    <!-- Left side with image and overlay -->
+                    <div class="col-lg-5 d-none d-lg-block position-relative">
+                        <div class="h-100" style="background: linear-gradient(135deg, rgba(10, 50, 110, 0.9) 0%, rgba(26, 77, 149, 0.8) 100%), url('/static/img/customer-support.svg') center/cover no-repeat;">
+                            <div class="d-flex flex-column justify-content-center h-100 text-white p-4">
+                                <div class="animate__animated animate__fadeInUp animate__delay-1s">
+                                    <h2 class="h3 fw-bold mb-4">Join Our Community</h2>
+                                    <p class="mb-4">Create an account to access our ticket management system and get support for all your inquiries.</p>
+                                    <div class="mb-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="bg-white rounded-circle p-2 me-3">
+                                                <i class="fas fa-check text-primary"></i>
+                                            </div>
+                                            <span>Submit and track support tickets</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="bg-white rounded-circle p-2 me-3">
+                                                <i class="fas fa-check text-primary"></i>
+                                            </div>
+                                            <span>Access knowledge base articles</span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-white rounded-circle p-2 me-3">
+                                                <i class="fas fa-check text-primary"></i>
+                                            </div>
+                                            <span>Get priority customer support</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right side with form -->
+                    <div class="col-lg-7">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="text-center mb-4">
+                                <img src="/static/img/TMS.png" alt="TMS Logo" height="50" class="mb-3">
+                                <h2 class="h3 fw-bold">Create Your Account</h2>
+                                <p class="text-muted">Fill in the form below to get started</p>
+                            </div>
+                            
+                            <form method="post" class="animate__animated animate__fadeInUp animate__delay-1s">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="id_username" class="form-label">Username</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
+                                        {{ form.username }}
+                                    </div>
+                                    {% if form.username.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.username.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="id_email" class="form-label">Email Address</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="fas fa-envelope"></i></span>
+                                        {{ form.email }}
+                                    </div>
+                                    {% if form.email.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.email.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="id_password1" class="form-label">Password</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+                                        {{ form.password1 }}
+                                    </div>
+                                    {% if form.password1.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.password1.errors }}
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-text small text-muted">
+                                        Your password must be at least 8 characters and contain letters and numbers.
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="id_password2" class="form-label">Confirm Password</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+                                        {{ form.password2 }}
+                                    </div>
+                                    {% if form.password2.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ form.password2.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-4 form-check">
+                                    <input type="checkbox" class="form-check-input" id="terms" required>
+                                    <label class="form-check-label small" for="terms">
+                                        I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                                    </label>
+                                </div>
+                                
+                                <div class="d-grid mb-4">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-glow">
+                                        <i class="fas fa-user-plus me-2"></i>Create Account
+                                    </button>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <p class="mb-0">Already have an account? <a href="{% url 'login' %}" class="text-primary fw-bold">Sign in</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

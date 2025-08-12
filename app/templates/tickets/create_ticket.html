@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Ticket - Ticket Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h2 class="mb-0">Create a New Ticket</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control" id="id_title" required>
+                        {% if ticket_form.title.errors %}
+                            <div class="text-danger">
+                                {{ ticket_form.title.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_category" class="form-label">Category</label>
+                        <select name="category" class="form-select" id="id_category" required>
+                            <option value="">Select a category</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if ticket_form.category.errors %}
+                            <div class="text-danger">
+                                {{ ticket_form.category.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Description</label>
+                        <textarea name="description" class="form-control" id="id_description" rows="5" required></textarea>
+                        {% if ticket_form.description.errors %}
+                            <div class="text-danger">
+                                {{ ticket_form.description.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_file" class="form-label">Attachments (Optional)</label>
+                        <input type="file" name="attachments" class="form-control" id="id_file" multiple>
+                        <div class="form-text">You can upload multiple files (max 10MB each). Supported formats: images, documents, etc.</div>
+                        {% if media_form.file.errors %}
+                            <div class="text-danger">
+                                {{ media_form.file.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Submit Ticket</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'admin/base_site.html' %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/custom_admin.css' %}">
+<style>
+  #jazzy-footer {
+    display: none !important; /* Hide the Jazzmin version footer */
+  }
+  
+  .sidebar-footer-content {
+    display: none !important;
+  }
+  
+  .navbar-brand-text {
+    display: inline-block;
+  }
+  
+  .navbar-nav .admin-title {
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-left: 10px;
+  }
+  
+  /* Custom styling for the admin interface */
+  .login .brand-link {
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  .login .brand-image {
+    float: none;
+    max-height: 80px;
+    margin: 0 auto 10px;
+    display: block;
+  }
+</style>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<script src="{% static 'admin/js/custom_admin.js' %}"></script>
+<script src="{% static 'admin/js/custom_navbar.js' %}"></script>
+{% endblock %}
+
+{% block branding %}
+<a href="{% url 'admin:index' %}" class="brand-link">
+  <img src="{% static 'img/TMS.png' %}" alt="TMS Logo" class="brand-image" style="opacity: .8">
+  <span class="brand-text font-weight-light">TMS Administrations</span>
+</a>
+{% endblock %}
+
+{% block nav_header %}
+{{ block.super }}
+<li class="nav-item d-none d-sm-inline-block">
+  <span class="nav-link admin-title">Administrations</span>
+</li>
+{% endblock %}
+
+{% block footer %}
+<footer class="main-footer">
+  <strong>TMS Administrations</strong>
+  <div class="float-right d-none d-sm-inline-block">
+    <b>Administration Panel</b>
+  </div>
+</footer>
+{% endblock %}

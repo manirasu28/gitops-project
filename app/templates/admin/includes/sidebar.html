@@ -1,0 +1,72 @@
+{% load i18n static jazzmin %}
+{% get_jazzmin_settings request as jazzmin_settings %}
+{% get_jazzmin_ui_tweaks as jazzmin_ui %}
+
+<aside class="main-sidebar {{ jazzmin_ui.sidebar_classes }}" id="jazzy-sidebar">
+    <a href="{% url 'admin:index' %}" class="brand-link navbar-primary" id="jazzy-logo" style="background-color: #0a326e;">
+        <img src="{% static 'img/TMS.png' %}" alt="{{ jazzmin_settings.site_header }}" style="border-radius: 0; box-shadow: none; background-color: transparent; padding: 0;">
+        <span class="brand-text font-weight-light">Administrations</span>
+    </a>
+
+    <div class="sidebar">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                {% if jazzmin_settings.user_avatar %}
+                    <img src="{% get_user_avatar request.user %}" class="img-circle elevation-2" alt="User Image">
+                {% else %}
+                    <i class="fas fa-user-circle img-circle elevation-2" style="font-size: 2.1rem; margin: 0 0.2rem; color: #fff;"></i>
+                {% endif %}
+            </div>
+            <div class="info">
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'admin:auth_user_change' request.user.pk %}">{{ request.user }}</a>
+                {% else %}
+                    <a href="{% url 'admin:login' %}">{% trans "Login" %}</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+
+                {% if jazzmin_settings.navigation_expanded %}
+                    {% for app in side_menu_list %}
+                        <li class="nav-header">{{ app.name }}</li>
+                        {% for model in app.models %}
+                            <li class="nav-item">
+                                <a href="{{ model.url }}" class="nav-link{% if model.active %} active{% endif %}">
+                                    <i class="nav-icon {{ model.icon }}"></i>
+                                    <p>{{ model.name }}</p>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+
+                {% else %}
+                    {% for app in side_menu_list %}
+                        <li class="nav-item{% if app.active %} menu-open{% endif %}">
+                            <a href="#" class="nav-link{% if app.active %} active{% endif %}">
+                                <i class="nav-icon {{ app.icon }}"></i>
+                                <p>
+                                    {{ app.name }}
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                {% for model in app.models %}
+                                    <li class="nav-item">
+                                        <a href="{{ model.url }}" class="nav-link{% if model.active %} active{% endif %}">
+                                            <i class="nav-icon {{ model.icon }}"></i>
+                                            <p>{{ model.name }}</p>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+
+            </ul>
+        </nav>
+    </div>
+</aside>
