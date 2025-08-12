@@ -28,8 +28,5 @@ local_settings.py
 .vscode/
 .idea/
 
-# Mac stuff
-.DS_Store
-
 # Docker
 docker-compose.override.yml
