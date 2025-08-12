@@ -2,12 +2,10 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: tms-application
-  namespace: argocd
+  namespace: default
   labels:
     app: tms
     environment: production
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
